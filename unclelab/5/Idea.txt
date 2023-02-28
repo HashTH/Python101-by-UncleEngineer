@@ -1,1 +1,5 @@
-โจทย์ Build a web scraper to extract data from websites and save it to a CSV file
+โจทย์ ทำโปรแกรม CSV Viewer
+-- ให้สามารถแสดงผล ข้อมูลใน CSV
+        -โดย ต้องมีเส้นกันแยกระหว่าง row
+        - ต้องแยกได้ว่า ข้อมูลอยู่ column ไหน
+    
