@@ -6,7 +6,7 @@ import csv
 def save_CSV():
     data = [['รายการ','รายละเอียด','จำนวนเงิน'],
            [drop1.get(),field1.get(),field2.get()]]
-    with open('moneyTrack.csv','a',newline='') as csvfile:
+    with open('moneyTrack.csv','w',newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerows(data)
     open_Mini()
