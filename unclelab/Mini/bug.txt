@@ -1,4 +1,2 @@
 bug ที่ยังไม่แก้
-    1.error fill ข้อมูล null แล้ว insert ได้
-    2.ใส่ command หน้าหลัก
-    3.ใส้ command รายงาน
+    1. diagram ติดภาษาต่างดาว
