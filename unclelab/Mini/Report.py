@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 import subprocess
 import sqlite3
 
@@ -25,20 +26,21 @@ root.config(bg='#FFEDDC')
 
 F1 = Frame(root, width=580, height=600,bg='white')
 
-text1 = Text(F1, height=18.5, width=60,font=('TH Sarabun New',20,'bold'))
-text1.pack()
+treeview = ttk.Treeview(F1, columns=('รายการ','จำนวนเงิน'),show='headings')
+treeview.heading('รายการ',text='รายการ')
+treeview.heading('จำนวนเงิน',text='จำนวนเงิน')
+
 conn = sqlite3.connect('unclelab\Mini\Mini.db')
-cursor = conn.cursor()
-cursor.execute('SELECT name,detail,value,created_at FROM finance order by id desc')
-rows = cursor.fetchall()
+cursur = conn.cursor()
+cursur.execute('SELECT name,SUM(value) FROM finance GROUP BY name')
+rows = cursur.fetchall()
+
+
 
 for row in rows:
-        text1.insert(END, f'รายการ: {row[0]}\n',)
-        text1.insert(END, f'รายละเอียด: {row[1]}\n')
-        text1.insert(END, f'จำนวนเงิน: {row[2]}\n')
-        text1.insert(END, f'บันทึกเมื่อ: {row[3]}\n')
-        text1.insert(END, '-'*95+'\n')
+        treeview.insert('','end',values=(row[0],row[1]))
 conn.close()
+treeview.pack(fill=BOTH,expand=True)
 
 F1.pack(pady=5,padx=5,fill=BOTH,expand=True)
 

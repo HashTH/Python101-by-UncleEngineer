@@ -1,15 +1,33 @@
 from tkinter import *
 from tkinter import ttk
 import subprocess
-import csv
+from datetime import datetime
+import sqlite3
 
-def save_CSV():
-    data = [['รายการ','รายละเอียด','จำนวนเงิน'],
-           [drop1.get(),field1.get(),field2.get()]]
-    with open('moneyTrack.csv','w',newline='') as csvfile:
-        csvwriter = csv.writer(csvfile)
-        csvwriter.writerows(data)
-    open_Mini()
+def open_main():
+    root.destroy()
+    subprocess.Popen(['python', 'unclelab\Mini\Mini.py'])
+
+def open_add():
+    root.destroy()
+    subprocess.Popen(['python', 'unclelab\Mini\Fullfill.py'])
+
+def open_Report():
+    root.destroy()
+    subprocess.Popen(['python', 'unclelab\Mini\Report.py'])
+
+def save_sql():
+    name = drop1.get()
+    detail = field1.get()
+    value = field2.get()
+    created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    conn = sqlite3.connect('unclelab\Mini\Mini.db')
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO finance(name,detail,value,created_at) values (?,?,?,?)',(name,detail,value,created_at))
+    conn.commit()
+    conn.close()
+    root.destroy()
+    subprocess.Popen(['python', 'unclelab\Mini\Mini.py'])
 
 def validate_int(value):
     if value.isdigit():
@@ -18,11 +36,6 @@ def validate_int(value):
         return True
     else:
         return False
-
-
-def open_Mini():
-    root.destroy()
-    subprocess.Popen(['python', 'Mini.py'])
 
 root = Tk()
 root.title('Money Tracking')
@@ -63,13 +76,12 @@ F1.pack(pady=10,padx=10,fill=BOTH,expand=True)
 
 F2 = Frame(root, width=600,height=100,)
 
-B1 = Button(F2,text='บันทึก',font=('TH Sarabun New',20,'bold'),fg='black',bg='#F0D579',command=save_CSV)
+B1 = Button(F2,text='บันทึก',font=('TH Sarabun New',20,'bold'),fg='black',bg='#F0D579',command=save_sql)
 B1.grid(row=0,column=0,ipady=20,ipadx=30,sticky=W)
 Blank1 = Label(F2,text='',bg='#FFEDDC')
 Blank1.grid(row=0,column=1,ipady=40,ipadx=50)
-B2 = Button(F2,text='ยกเลิก',font=('TH Sarabun New',20,'bold'),fg='black',bg='#F0D579',command=open_Mini)
+B2 = Button(F2,text='ยกเลิก',font=('TH Sarabun New',20,'bold'),fg='black',bg='#F0D579',command=open_main)
 B2.grid(row=0,column=2,ipady=20,ipadx=30,sticky=E)
-
 
 F2.pack(pady=10)
 
